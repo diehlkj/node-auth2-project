@@ -4,8 +4,6 @@ const express = require('express');
 const helmet = require('helmet');
 // cors *** Look this up, I still don't quite understand it ***
 const cors = require('cors');
-// jwt
-const jwt = require('jsonwebtoken');
 // routers
 const authRouter = require('../auth/authRouter.js');
 const usersRouter = require('../users/usersRouter.js');
