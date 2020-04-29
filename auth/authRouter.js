@@ -25,7 +25,7 @@ router.post('/register', (req, res) => {
         .then(userData => {
             const token = getToken(userData);
 
-            res.status(200).json({ MESSAGE: `Account Creation Succesful: ${userData} | Here is your token: ${token}` });
+            res.status(200).json({ MESSAGE: `Account Creation Succesful ${userData.username} | Here is your token: ${token}` });
         })
         .catch(err => {
             res.status(500).json({ MESSAGE: 'There was a problem handling your (/register)[POST] request: ', err });
@@ -44,10 +44,11 @@ router.post('/login', (req, res) => {
     // Get the username and password from the request body
     let { username, password } = req.body;
 
-    // Look for user in our db table by 'username'
-    Model.findUserBy(username)
+    // Look for user in our db table by 'username' !!!! DONT FORGET TO WRAP IN CURLY BOIS
+    Model.findUserBy({ username })
         .first()
         .then(userData => {
+            console.log('in findUserBy.then | Here is userData: ', userData);
             // Check if userData was returned and that the password hash generated from the provided guess matches that in the db
             if (userData && bcrypt.compareSync(password, userData.password)) {
                 const token = getToken(userData);
@@ -59,7 +60,7 @@ router.post('/login', (req, res) => {
         .catch(err => {
             res.status(500).json({ MESSAGE: 'There was a problem handling your (/login)[POST] request: ', err });
         })
-})
+});
 
 function getToken(userData) {
     // Make the payload and assign to it the information we wish it to contain
@@ -75,7 +76,7 @@ function getToken(userData) {
     const token = jwt.sign(payload, secret.jwtSecret, options);
   
     return token;
-  }
+  };
 
 // '/logout'
 // DELETE

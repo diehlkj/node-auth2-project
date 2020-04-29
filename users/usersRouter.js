@@ -17,3 +17,5 @@ router.get('/', authCheck, (req, res) => {
             res.status(500).json({ MESSAGE: 'There was a problem handling your (/users)[GET] request: ', err });
         })
 })
+
+module.exports = router;
